@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+plotly
+supabase
+pytz
+st-gsheets-connection
+opencv-python-headless
+bleach
+bcrypt
