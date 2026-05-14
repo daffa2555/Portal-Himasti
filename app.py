@@ -4,21 +4,13 @@ import plotly.graph_objects as go
 from supabase import create_client
 from datetime import datetime
 
+MATARAM_TIMEZONE = "Asia/Makassar"
+
 
 def _today_weekday_id():
-    """Return weekday id 0=Senin ... 6=Minggu using pandas (requested: pakai pd)."""
-    now = pd.Timestamp(datetime.now().date())
-    day_name = now.day_name()  # English day name
-    id_map = {
-        "Monday": 0,
-        "Tuesday": 1,
-        "Wednesday": 2,
-        "Thursday": 3,
-        "Friday": 4,
-        "Saturday": 5,
-        "Sunday": 6,
-    }
-    return id_map.get(day_name, -1)
+    """Return weekday id 0=Senin ... 6=Minggu untuk waktu Mataram/WITA."""
+    now_mataram = pd.Timestamp.now(tz=MATARAM_TIMEZONE)
+    return int(now_mataram.dayofweek)
 
 
 import bcrypt
@@ -248,7 +240,7 @@ section[data-testid="stSidebar"] [data-testid="stSidebarContent"] {
   line-height: 1.6;
 }
 
-.auth-logo, .sidebar-logo, .hero-watermark {
+.auth-logo, .sidebar-logo {
   display: inline-block;
   object-fit: contain;
   background: #ffffff !important;
@@ -273,9 +265,21 @@ section[data-testid="stSidebar"] [data-testid="stSidebarContent"] {
 }
 
 .hero-watermark {
-  width: 76px;
-  height: 76px;
-  padding: 6px;
+  position: absolute;
+  top: 50%;
+  right: clamp(-3rem, -2vw, -1rem);
+  width: clamp(12rem, 26vw, 22rem);
+  height: clamp(12rem, 26vw, 22rem);
+  padding: 1rem;
+  object-fit: contain;
+  background: #ffffff;
+  border-radius: 50%;
+  opacity: 0.12;
+  transform: translateY(-50%) rotate(-8deg);
+  filter: saturate(0.9);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
 }
 
 .sidebar-brand {
@@ -328,8 +332,11 @@ section[data-testid="stSidebar"] [data-testid="stSidebarContent"] {
 }
 
 .app-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 13rem;
   margin-bottom: 1.25rem;
-  padding: 1.35rem;
+  padding: 1.6rem;
   background:
     linear-gradient(135deg, rgba(32, 208, 180, 0.16), rgba(242, 184, 75, 0.08)),
     rgba(16, 32, 36, 0.88);
@@ -339,11 +346,13 @@ section[data-testid="stSidebar"] [data-testid="stSidebarContent"] {
 }
 
 .hero-row {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.2rem;
-  margin-top: 1rem;
+  min-height: 9.5rem;
 }
 
 .hero-row h1 {
@@ -545,10 +554,18 @@ hr {
   .hero-row {
     align-items: flex-start;
     flex-direction: column;
+    min-height: 11rem;
   }
 
   .hero-pills {
     justify-content: flex-start;
+  }
+
+  .hero-watermark {
+    right: -4.5rem;
+    width: 15rem;
+    height: 15rem;
+    opacity: 0.09;
   }
 
   .auth-logo {
