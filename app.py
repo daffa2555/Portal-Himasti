@@ -195,15 +195,16 @@ APP BACKGROUND
 /* =========================================================
    LOGO BULAT DENGAN BACKGROUND PUTIH
 ========================================================= */
-.auth-logo, .sidebar-logo {
+.auth-logo, .sidebar-logo, .hero-watermark {
     background-color: white !important; /* Memberikan latar putih */
     border-radius: 50% !important;      /* Membuat bentuk menjadi bulat */
     padding: 5px;                       /* Memberi jarak antara logo dan tepi lingkaran */
     object-fit: contain;
     /* Hapus filter atau mix-blend-mode yang membuat warna berubah */
+    display: inline-block;
 }
 
-/* Jika Anda ingin memastikan ukurannya tetap proporsional */
+/* Ukuran & posisi masing-masing logo */
 .auth-logo {
     width: 120px;
     height: 120px;
@@ -215,6 +216,14 @@ APP BACKGROUND
     width: 38px;
     height: 38px;
     padding: 3px;
+}
+
+.hero-watermark {
+    width: 92px;
+    height: 92px;
+    padding: 6px;
+    display: block;
+    margin: 0 auto 18px;
 }
 /* =========================================================
    SIDEBAR & BRANDING
