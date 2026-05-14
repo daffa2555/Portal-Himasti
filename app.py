@@ -48,7 +48,7 @@ try:
     KEY = get_secret("SUPABASE_KEY")
 
     SUPERADMIN_CONFIG = st.secrets.get("superadmin", {})
-    SUPERADMIN_ID = (
+    SUPERADMIN_ID = ( 
         SUPERADMIN_CONFIG.get("username", "") or
         get_secret("SUPERADMIN_USERNAME") or
         get_secret("SUPERADMIN_ID")
@@ -151,144 +151,415 @@ for k, v in DEFAULT_SESSION.items():
 # =========================================================
 _GLOBAL_CSS = """
 <style>
-
-/* =========================================================
-   ROOT & CORE RESET
-========================================================= */
 :root {
-  --bg-main: #050505;
-  --bg-secondary: #0A0A0A;
-  --card-bg: #111111;
-  --card-border: #262626;
-  --primary: #00d1b2;
-  --primary-hover: #00b89c;
-  --primary-soft: rgba(0, 209, 178, 0.05);
-  --text-main: #F9FAFB;
-  --text-soft: #A3A3A3;
-  --text-muted: #525252;
-
-  --danger: #ef4444;
-  --success: #10b981;
-
+  --app-bg: #071113;
+  --app-bg-soft: #0d191d;
+  --panel: #102024;
+  --panel-strong: #14292f;
+  --line: rgba(168, 232, 219, 0.16);
+  --line-strong: rgba(168, 232, 219, 0.30);
+  --brand: #20d0b4;
+  --brand-strong: #14b89f;
+  --gold: #f2b84b;
+  --rose: #ef6b7b;
+  --blue: #6db7ff;
+  --ink: #f5fbfa;
+  --muted: #a9bab8;
+  --subtle: #71817f;
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.32);
   --radius: 8px;
-  --radius-sm: 4px;
-
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.5);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.6);
-
-  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-/* =========================================================
-APP BACKGROUND
-========================================================= */
+
+html, body, [class*="css"] {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
 .stApp {
-  background-color: var(--bg-main);
-  color: var(--text-main);
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(32, 208, 180, 0.16), transparent 30rem),
+    linear-gradient(145deg, #061012 0%, #0a171b 50%, #091315 100%);
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-main); }
-::-webkit-scrollbar-thumb { background: #262626; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #333333; }
+.block-container {
+  max-width: 1220px;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
 
-/* =========================================================
-   LOGO BULAT DENGAN BACKGROUND PUTIH
-========================================================= */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #081315; }
+::-webkit-scrollbar-thumb {
+  background: rgba(168, 232, 219, 0.24);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(168, 232, 219, 0.40); }
+
+h1, h2, h3, h4 {
+  color: var(--ink);
+  letter-spacing: 0;
+}
+
+p, label, span, div {
+  color: inherit;
+}
+
+section[data-testid="stSidebar"] {
+  background:
+    linear-gradient(180deg, rgba(16, 32, 36, 0.98), rgba(7, 17, 19, 0.98)) !important;
+  border-right: 1px solid var(--line);
+}
+
+section[data-testid="stSidebar"] [data-testid="stSidebarContent"] {
+  padding: 1.5rem 1rem;
+}
+
+.himasti-embed {
+  color: var(--ink);
+}
+
+.auth-shell {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 1.4rem;
+}
+
+.auth-brand {
+  width: 100%;
+  max-width: 460px;
+  padding: 2rem;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(20, 41, 47, 0.96), rgba(11, 25, 29, 0.96));
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.auth-brand h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 850;
+}
+
+.auth-brand p {
+  margin: 0.65rem auto 0;
+  max-width: 30rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 .auth-logo, .sidebar-logo, .hero-watermark {
-    background-color: white !important; /* Memberikan latar putih */
-    border-radius: 50% !important;      /* Membuat bentuk menjadi bulat */
-    padding: 5px;                       /* Memberi jarak antara logo dan tepi lingkaran */
-    object-fit: contain;
-    /* Hapus filter atau mix-blend-mode yang membuat warna berubah */
-    display: inline-block;
+  display: inline-block;
+  object-fit: contain;
+  background: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 50% !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
 }
 
-/* Ukuran & posisi masing-masing logo */
 .auth-logo {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 20px;
-    display: block;
+  width: 112px;
+  height: 112px;
+  padding: 8px;
+  margin: 0 auto 1.25rem;
+  display: block;
 }
 
 .sidebar-logo {
-    width: 38px;
-    height: 38px;
-    padding: 3px;
+  width: 42px;
+  height: 42px;
+  padding: 4px;
+  flex: 0 0 auto;
 }
 
 .hero-watermark {
-    width: 92px;
-    height: 92px;
-    padding: 6px;
-    display: block;
-    margin: 0 auto 18px;
-}
-/* =========================================================
-   SIDEBAR & BRANDING
-   ========================================================= */
-section[data-testid="stSidebar"] {
-    background-color: #0A0A0A !important;
-    border-right: 1px solid #262626;
+  width: 76px;
+  height: 76px;
+  padding: 6px;
 }
 
 .sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 0;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 0 1.1rem;
 }
 
 .sidebar-brand h2 {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #F9FAFB;
-    margin: 0;
-    letter-spacing: -0.01em;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 850;
 }
 
-/* =========================================================
-   REFINED COMPONENTS (Clean Enterprise Look)
-   ========================================================= */
-.auth-brand {
-    max-width: 400px;
-    padding: 40px;
-    background: #111111;
-    border: 1px solid #262626;
-    border-radius: 8px;
-    text-align: center;
+.sidebar-tagline,
+.sidebar-label {
+  color: var(--subtle);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.sidebar-profile {
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.sidebar-profile .name {
+  margin: 0.4rem 0 0.55rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.sidebar-profile .role,
+.role-pill,
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 750;
+  color: #061113;
+  background: var(--brand);
+}
+
+.app-hero {
+  margin-bottom: 1.25rem;
+  padding: 1.35rem;
+  background:
+    linear-gradient(135deg, rgba(32, 208, 180, 0.16), rgba(242, 184, 75, 0.08)),
+    rgba(16, 32, 36, 0.88);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.hero-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.hero-row h1 {
+  margin: 0;
+  font-size: clamp(1.7rem, 4vw, 2.8rem);
+  font-weight: 900;
+}
+
+.hero-row p {
+  max-width: 44rem;
+  margin: 0.6rem 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.55rem;
+}
+
+.status-pill {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
+}
+
+.note-card,
+.surat-doc {
+  padding: 1rem 1.1rem;
+  margin: 0.8rem 0;
+  background: rgba(16, 32, 36, 0.90);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.20);
+}
+
+.note-card h4 {
+  margin: 0 0 0.45rem;
+  font-size: 1rem;
+}
+
+.note-card p,
+.note-card small {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.surat-doc {
+  color: #1b2525;
+  background: #fbfaf5;
+  border-color: #e1d8c5;
+  border-left-color: var(--brand-strong);
+}
+
+.surat-doc * {
+  color: #1b2525;
+}
+
+.surat-header {
+  text-align: center;
+  border-bottom: 2px solid #1b2525;
+  padding-bottom: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.surat-header h2,
+.surat-header h3,
+.surat-header p {
+  margin: 0.15rem 0;
+}
+
+.surat-meta {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.surat-sign {
+  width: fit-content;
+  margin: 2rem 0 0 auto;
+  text-align: center;
 }
 
 div[data-testid="stMetric"] {
-    background: #111111;
-    border: 1px solid #262626;
-    border-radius: 8px;
+  padding: 1rem;
+  background: rgba(16, 32, 36, 0.92);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
 }
 
-.stButton > button {
-    background: #00d1b2 !important;
-    color: #000 !important;
-    border-radius: 4px !important;
-    font-weight: 700 !important;
-    border: none !important;
+div[data-testid="stMetric"] label {
+  color: var(--muted) !important;
+  font-weight: 700;
 }
 
-.stTextInput input {
-    background-color: #1A1A1A !important;
-    border: 1px solid #262626 !important;
-    border-radius: 4px !important;
+div[data-testid="stMetricValue"] {
+  color: var(--ink);
+  font-weight: 850;
 }
 
-/* Tab Active State */
+.stButton > button,
+.stDownloadButton > button,
+button[kind="primary"],
+button[kind="secondary"],
+button[data-testid="baseButton-secondary"],
+button[data-testid="baseButton-primary"] {
+  min-height: 2.7rem;
+  border: 1px solid rgba(32, 208, 180, 0.42) !important;
+  border-radius: var(--radius) !important;
+  color: #061113 !important;
+  background: linear-gradient(180deg, #39e3c8, #16bfa5) !important;
+  font-weight: 800 !important;
+  box-shadow: 0 10px 22px rgba(20, 184, 159, 0.18);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.stButton > button:hover,
+.stDownloadButton > button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(242, 184, 75, 0.68) !important;
+  box-shadow: 0 16px 30px rgba(20, 184, 159, 0.26);
+}
+
+.stButton > button:focus,
+.stDownloadButton > button:focus {
+  box-shadow: 0 0 0 3px rgba(32, 208, 180, 0.24) !important;
+}
+
+.stTextInput input,
+.stTextArea textarea,
+.stNumberInput input,
+.stDateInput input,
+div[data-baseweb="select"] > div,
+div[data-baseweb="input"] input,
+div[data-baseweb="textarea"] textarea {
+  color: var(--ink) !important;
+  background: rgba(255, 255, 255, 0.055) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius) !important;
+}
+
+.stTextInput input:focus,
+.stTextArea textarea:focus,
+.stNumberInput input:focus,
+.stDateInput input:focus {
+  border-color: var(--brand) !important;
+  box-shadow: 0 0 0 3px rgba(32, 208, 180, 0.16) !important;
+}
+
+.stTabs [data-baseweb="tab-list"] {
+  gap: 0.35rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.stTabs [data-baseweb="tab"] {
+  min-height: 2.7rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius) var(--radius) 0 0;
+  color: var(--muted);
+  font-weight: 750;
+}
+
 .stTabs [aria-selected="true"] {
-    color: #00d1b2 !important;
-    border-bottom: 2px solid #00d1b2 !important;
+  color: var(--brand) !important;
+  background: rgba(32, 208, 180, 0.08);
+  border-bottom: 2px solid var(--brand) !important;
 }
 
+div[data-testid="stDataFrame"],
+div[data-testid="stTable"] {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+div[data-testid="stAlert"] {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+hr {
+  border-color: var(--line) !important;
+}
+
+@media (max-width: 760px) {
+  .block-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .auth-brand,
+  .app-hero {
+    padding: 1.15rem;
+  }
+
+  .hero-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hero-pills {
+    justify-content: flex-start;
+  }
+
+  .auth-logo {
+    width: 92px;
+    height: 92px;
+  }
+}
 </style>
 """
+
+st.markdown(_GLOBAL_CSS, unsafe_allow_html=True)
 
 # =========================================================
 # FUNCTIONS
@@ -343,27 +614,30 @@ def build_finance_pie_chart(df_chart):
                 labels=df_chart["tipe"],
                 values=df_chart["nominal"],
                 hole=0.52,
-                marker=dict(colors=["#00d1b2", "#ff6b6b"]),
+                marker=dict(
+                    colors=["#20d0b4", "#ef6b7b"],
+                    line=dict(color="rgba(255,255,255,0.16)", width=1)
+                ),
                 textinfo="label+percent",
                 hovertemplate="%{label}<br>Rp %{value:,.0f}<extra></extra>"
+            )
+        ]
     )
-                            ]
-                                    )
 
     fig.update_layout(
         height=360,
         margin=dict(t=20, b=20, l=20, r=20),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#f1f1f1"),
+        font=dict(color="#f5fbfa"),
         legend=dict(
             orientation="h",
             yanchor="bottom",
             y=-0.15,
             xanchor="center",
             x=0.5
+        )
     )
-                )
 
     return fig
 
@@ -395,13 +669,13 @@ def get_maintenance():
     try:
         res = supabase.table("settings")\
             .select("value")\
-                            .eq("key", "maintenance_mode")\
-                            .execute()
+            .eq("key", "maintenance_mode")\
+            .execute()
 
         if res.data:
             return res.data[0]["value"].lower() == "true"
         return False
-    except:
+    except Exception:
         return False
 
 # =========================================================
@@ -961,9 +1235,9 @@ else:
 
         if role == "Anggota":
 
-            if not df_absen.empty:
+            if not df_absen.empty and "nama" in df_absen.columns:
                 df_show = df_absen[
-                    df_absen["nama"].str.lower() ==
+                    df_absen["nama"].astype(str).str.lower() ==
                     username.lower()
                 ]
             else:
